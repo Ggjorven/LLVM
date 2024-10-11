@@ -117,10 +117,13 @@ namespace llvm {
 
     /// Return true if this is a RISCV vector tuple type where the
     /// runtime length is machine dependent
+    
+    /*
     bool isRISCVVectorTuple() const {
       return (SimpleTy >= MVT::FIRST_RISCV_VECTOR_TUPLE_VALUETYPE &&
               SimpleTy <= MVT::LAST_RISCV_VECTOR_TUPLE_VALUETYPE);
     }
+    */
 
     /// Return true if this is a custom target type that has a scalable size.
     bool isScalableTargetExtVT() const {
