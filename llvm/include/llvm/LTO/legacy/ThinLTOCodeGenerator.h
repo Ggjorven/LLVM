@@ -276,7 +276,7 @@ public:
    */
   void gatherImportedSummariesForModule(
       Module &Module, ModuleSummaryIndex &Index,
-      ModuleToSummariesForIndexTy &ModuleToSummariesForIndex,
+      std::map<std::string, GVSummaryMapTy> &ModuleToSummariesForIndex,
       GVSummaryPtrSet &DecSummaries, const lto::InputFile &File);
 
   /**

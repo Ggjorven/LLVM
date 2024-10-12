@@ -16,7 +16,6 @@
 #include "llvm/ADT/STLFunctionalExtras.h"
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/Analysis/LoopInfo.h"
-#include "llvm/Analysis/OptimizationRemarkEmitter.h"
 #include "llvm/Analysis/StackSafetyAnalysis.h"
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/Support/Alignment.h"
@@ -65,28 +64,17 @@ struct StackInfo {
   bool CallsReturnTwice = false;
 };
 
-enum class AllocaInterestingness {
-  // Uninteresting because of the nature of the alloca.
-  kUninteresting,
-  // Uninteresting because proven safe.
-  kSafe,
-  // Interesting.
-  kInteresting
-};
-
 class StackInfoBuilder {
 public:
-  StackInfoBuilder(const StackSafetyGlobalInfo *SSI, const char *DebugType)
-      : SSI(SSI), DebugType(DebugType) {}
+  StackInfoBuilder(const StackSafetyGlobalInfo *SSI) : SSI(SSI) {}
 
-  void visit(OptimizationRemarkEmitter &ORE, Instruction &Inst);
-  AllocaInterestingness getAllocaInterestingness(const AllocaInst &AI);
+  void visit(Instruction &Inst);
+  bool isInterestingAlloca(const AllocaInst &AI);
   StackInfo &get() { return Info; };
 
 private:
   StackInfo Info;
   const StackSafetyGlobalInfo *SSI;
-  const char *DebugType;
 };
 
 uint64_t getAllocaSizeInBytes(const AllocaInst &AI);

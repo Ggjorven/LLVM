@@ -8,10 +8,12 @@
 
 #ifndef LLVM_IR_INTRINSIC_HEXAGON_ENUMS_H
 #define LLVM_IR_INTRINSIC_HEXAGON_ENUMS_H
-namespace llvm::Intrinsic {
+
+namespace llvm {
+namespace Intrinsic {
 enum HEXAGONIntrinsics : unsigned {
-// Enum values for intrinsics.
-    hexagon_A2_abs = 3692,                            // llvm.hexagon.A2.abs
+// Enum values for intrinsics
+    hexagon_A2_abs = 3650,                            // llvm.hexagon.A2.abs
     hexagon_A2_absp,                           // llvm.hexagon.A2.absp
     hexagon_A2_abssat,                         // llvm.hexagon.A2.abssat
     hexagon_A2_add,                            // llvm.hexagon.A2.add
@@ -2021,6 +2023,7 @@ enum HEXAGONIntrinsics : unsigned {
     hexagon_vmemcpy,                           // llvm.hexagon.vmemcpy
     hexagon_vmemset,                           // llvm.hexagon.vmemset
 }; // enum
-} // namespace llvm::Intrinsic
-#endif
+} // namespace Intrinsic
+} // namespace llvm
 
+#endif

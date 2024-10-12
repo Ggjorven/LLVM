@@ -773,7 +773,7 @@ public:
   /// Returns a new list because attribute lists are immutable.
   [[nodiscard]] AttributeList
   addAllocSizeParamAttr(LLVMContext &C, unsigned ArgNo, unsigned ElemSizeArg,
-                        const std::optional<unsigned> &NumElemsArg) const;
+                        const std::optional<unsigned> &NumElemsArg);
 
   //===--------------------------------------------------------------------===//
   // AttributeList Accessors

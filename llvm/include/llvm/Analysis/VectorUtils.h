@@ -120,7 +120,9 @@ class DemandedBits;
 template <typename InstTy> class InterleaveGroup;
 class IRBuilderBase;
 class Loop;
+class ScalarEvolution;
 class TargetTransformInfo;
+class Type;
 class Value;
 
 namespace Intrinsic {

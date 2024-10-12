@@ -8,10 +8,12 @@
 
 #ifndef LLVM_IR_INTRINSIC_NVVM_ENUMS_H
 #define LLVM_IR_INTRINSIC_NVVM_ENUMS_H
-namespace llvm::Intrinsic {
+
+namespace llvm {
+namespace Intrinsic {
 enum NVVMIntrinsics : unsigned {
-// Enum values for intrinsics.
-    nvvm_abs_bf16 = 7886,                             // llvm.nvvm.abs.bf16
+// Enum values for intrinsics
+    nvvm_abs_bf16 = 7844,                             // llvm.nvvm.abs.bf16
     nvvm_abs_bf16x2,                           // llvm.nvvm.abs.bf16x2
     nvvm_activemask,                           // llvm.nvvm.activemask
     nvvm_add_rm_d,                             // llvm.nvvm.add.rm.d
@@ -68,6 +70,10 @@ enum NVVMIntrinsics : unsigned {
     nvvm_barrier0_popc,                        // llvm.nvvm.barrier0.popc
     nvvm_bf2h_rn,                              // llvm.nvvm.bf2h.rn
     nvvm_bf2h_rn_ftz,                          // llvm.nvvm.bf2h.rn.ftz
+    nvvm_bitcast_d2ll,                         // llvm.nvvm.bitcast.d2ll
+    nvvm_bitcast_f2i,                          // llvm.nvvm.bitcast.f2i
+    nvvm_bitcast_i2f,                          // llvm.nvvm.bitcast.i2f
+    nvvm_bitcast_ll2d,                         // llvm.nvvm.bitcast.ll2d
     nvvm_ceil_d,                               // llvm.nvvm.ceil.d
     nvvm_ceil_f,                               // llvm.nvvm.ceil.f
     nvvm_ceil_ftz_f,                           // llvm.nvvm.ceil.ftz.f
@@ -133,21 +139,12 @@ enum NVVMIntrinsics : unsigned {
     nvvm_div_rz_d,                             // llvm.nvvm.div.rz.d
     nvvm_div_rz_f,                             // llvm.nvvm.div.rz.f
     nvvm_div_rz_ftz_f,                         // llvm.nvvm.div.rz.ftz.f
-    nvvm_e4m3x2_to_f16x2_rn,                   // llvm.nvvm.e4m3x2.to.f16x2.rn
-    nvvm_e4m3x2_to_f16x2_rn_relu,              // llvm.nvvm.e4m3x2.to.f16x2.rn.relu
-    nvvm_e5m2x2_to_f16x2_rn,                   // llvm.nvvm.e5m2x2.to.f16x2.rn
-    nvvm_e5m2x2_to_f16x2_rn_relu,              // llvm.nvvm.e5m2x2.to.f16x2.rn.relu
-    nvvm_elect_sync,                           // llvm.nvvm.elect.sync
     nvvm_ex2_approx_d,                         // llvm.nvvm.ex2.approx.d
     nvvm_ex2_approx_f,                         // llvm.nvvm.ex2.approx.f
     nvvm_ex2_approx_f16,                       // llvm.nvvm.ex2.approx.f16
     nvvm_ex2_approx_f16x2,                     // llvm.nvvm.ex2.approx.f16x2
     nvvm_ex2_approx_ftz_f,                     // llvm.nvvm.ex2.approx.ftz.f
     nvvm_exit,                                 // llvm.nvvm.exit
-    nvvm_f16x2_to_e4m3x2_rn,                   // llvm.nvvm.f16x2.to.e4m3x2.rn
-    nvvm_f16x2_to_e4m3x2_rn_relu,              // llvm.nvvm.f16x2.to.e4m3x2.rn.relu
-    nvvm_f16x2_to_e5m2x2_rn,                   // llvm.nvvm.f16x2.to.e5m2x2.rn
-    nvvm_f16x2_to_e5m2x2_rn_relu,              // llvm.nvvm.f16x2.to.e5m2x2.rn.relu
     nvvm_f2bf16_rn,                            // llvm.nvvm.f2bf16.rn
     nvvm_f2bf16_rn_relu,                       // llvm.nvvm.f2bf16.rn.relu
     nvvm_f2bf16_rz,                            // llvm.nvvm.f2bf16.rz
@@ -190,19 +187,7 @@ enum NVVMIntrinsics : unsigned {
     nvvm_fabs_d,                               // llvm.nvvm.fabs.d
     nvvm_fabs_f,                               // llvm.nvvm.fabs.f
     nvvm_fabs_ftz_f,                           // llvm.nvvm.fabs.ftz.f
-    nvvm_fence_proxy_tensormap_generic_acquire_cluster,  // llvm.nvvm.fence.proxy.tensormap_generic.acquire.cluster
-    nvvm_fence_proxy_tensormap_generic_acquire_cta,  // llvm.nvvm.fence.proxy.tensormap_generic.acquire.cta
-    nvvm_fence_proxy_tensormap_generic_acquire_gpu,  // llvm.nvvm.fence.proxy.tensormap_generic.acquire.gpu
-    nvvm_fence_proxy_tensormap_generic_acquire_sys,  // llvm.nvvm.fence.proxy.tensormap_generic.acquire.sys
-    nvvm_fence_proxy_tensormap_generic_release_cluster,  // llvm.nvvm.fence.proxy.tensormap_generic.release.cluster
-    nvvm_fence_proxy_tensormap_generic_release_cta,  // llvm.nvvm.fence.proxy.tensormap_generic.release.cta
-    nvvm_fence_proxy_tensormap_generic_release_gpu,  // llvm.nvvm.fence.proxy.tensormap_generic.release.gpu
-    nvvm_fence_proxy_tensormap_generic_release_sys,  // llvm.nvvm.fence.proxy.tensormap_generic.release.sys
     nvvm_fence_sc_cluster,                     // llvm.nvvm.fence.sc.cluster
-    nvvm_ff_to_e4m3x2_rn,                      // llvm.nvvm.ff.to.e4m3x2.rn
-    nvvm_ff_to_e4m3x2_rn_relu,                 // llvm.nvvm.ff.to.e4m3x2.rn.relu
-    nvvm_ff_to_e5m2x2_rn,                      // llvm.nvvm.ff.to.e5m2x2.rn
-    nvvm_ff_to_e5m2x2_rn_relu,                 // llvm.nvvm.ff.to.e5m2x2.rn.relu
     nvvm_ff2bf16x2_rn,                         // llvm.nvvm.ff2bf16x2.rn
     nvvm_ff2bf16x2_rn_relu,                    // llvm.nvvm.ff2bf16x2.rn.relu
     nvvm_ff2bf16x2_rz,                         // llvm.nvvm.ff2bf16x2.rz
@@ -343,14 +328,6 @@ enum NVVMIntrinsics : unsigned {
     nvvm_i2f_rn,                               // llvm.nvvm.i2f.rn
     nvvm_i2f_rp,                               // llvm.nvvm.i2f.rp
     nvvm_i2f_rz,                               // llvm.nvvm.i2f.rz
-    nvvm_idp2a_s_s,                            // llvm.nvvm.idp2a.s.s
-    nvvm_idp2a_s_u,                            // llvm.nvvm.idp2a.s.u
-    nvvm_idp2a_u_s,                            // llvm.nvvm.idp2a.u.s
-    nvvm_idp2a_u_u,                            // llvm.nvvm.idp2a.u.u
-    nvvm_idp4a_s_s,                            // llvm.nvvm.idp4a.s.s
-    nvvm_idp4a_s_u,                            // llvm.nvvm.idp4a.s.u
-    nvvm_idp4a_u_s,                            // llvm.nvvm.idp4a.u.s
-    nvvm_idp4a_u_u,                            // llvm.nvvm.idp4a.u.u
     nvvm_is_explicit_cluster,                  // llvm.nvvm.is_explicit_cluster
     nvvm_isspacep_const,                       // llvm.nvvm.isspacep.const
     nvvm_isspacep_global,                      // llvm.nvvm.isspacep.global
@@ -515,8 +492,16 @@ enum NVVMIntrinsics : unsigned {
     nvvm_neg_bf16,                             // llvm.nvvm.neg.bf16
     nvvm_neg_bf16x2,                           // llvm.nvvm.neg.bf16x2
     nvvm_prmt,                                 // llvm.nvvm.prmt
+    nvvm_ptr_constant_to_gen,                  // llvm.nvvm.ptr.constant.to.gen
+    nvvm_ptr_gen_to_constant,                  // llvm.nvvm.ptr.gen.to.constant
+    nvvm_ptr_gen_to_global,                    // llvm.nvvm.ptr.gen.to.global
+    nvvm_ptr_gen_to_local,                     // llvm.nvvm.ptr.gen.to.local
     nvvm_ptr_gen_to_param,                     // llvm.nvvm.ptr.gen.to.param
+    nvvm_ptr_gen_to_shared,                    // llvm.nvvm.ptr.gen.to.shared
+    nvvm_ptr_global_to_gen,                    // llvm.nvvm.ptr.global.to.gen
+    nvvm_ptr_local_to_gen,                     // llvm.nvvm.ptr.local.to.gen
     nvvm_ptr_param_to_gen,                     // llvm.nvvm.ptr.param.to.gen
+    nvvm_ptr_shared_to_gen,                    // llvm.nvvm.ptr.shared.to.gen
     nvvm_rcp_approx_ftz_d,                     // llvm.nvvm.rcp.approx.ftz.d
     nvvm_rcp_approx_ftz_f,                     // llvm.nvvm.rcp.approx.ftz.f
     nvvm_rcp_rm_d,                             // llvm.nvvm.rcp.rm.d
@@ -625,6 +610,9 @@ enum NVVMIntrinsics : unsigned {
     nvvm_redux_sync_umin,                      // llvm.nvvm.redux.sync.umin
     nvvm_redux_sync_xor,                       // llvm.nvvm.redux.sync.xor
     nvvm_reflect,                              // llvm.nvvm.reflect
+    nvvm_rotate_b32,                           // llvm.nvvm.rotate.b32
+    nvvm_rotate_b64,                           // llvm.nvvm.rotate.b64
+    nvvm_rotate_right_b64,                     // llvm.nvvm.rotate.right.b64
     nvvm_round_d,                              // llvm.nvvm.round.d
     nvvm_round_f,                              // llvm.nvvm.round.f
     nvvm_round_ftz_f,                          // llvm.nvvm.round.ftz.f
@@ -1700,6 +1688,7 @@ enum NVVMIntrinsics : unsigned {
     nvvm_wmma_m8n8k4_store_d_f64_row,          // llvm.nvvm.wmma.m8n8k4.store.d.row.f64
     nvvm_wmma_m8n8k4_store_d_f64_row_stride,   // llvm.nvvm.wmma.m8n8k4.store.d.row.stride.f64
 }; // enum
-} // namespace llvm::Intrinsic
-#endif
+} // namespace Intrinsic
+} // namespace llvm
 
+#endif

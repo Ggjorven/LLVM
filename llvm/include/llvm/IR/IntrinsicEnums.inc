@@ -7,7 +7,7 @@
 \*===----------------------------------------------------------------------===*/
 
 #ifdef GET_INTRINSIC_ENUM_VALUES
-// Enum values for intrinsics.
+// Enum values for intrinsics
     abs = 1,                                       // llvm.abs
     acos,                                      // llvm.acos
     addressofreturnaddress,                    // llvm.addressofreturnaddress
@@ -20,7 +20,6 @@
     asin,                                      // llvm.asin
     assume,                                    // llvm.assume
     atan,                                      // llvm.atan
-    atan2,                                     // llvm.atan2
     bitreverse,                                // llvm.bitreverse
     bswap,                                     // llvm.bswap
     call_preallocated_arg,                     // llvm.call.preallocated.arg
@@ -163,6 +162,7 @@
     experimental_patchpoint,                   // llvm.experimental.patchpoint
     experimental_patchpoint_void,              // llvm.experimental.patchpoint.void
     experimental_stackmap,                     // llvm.experimental.stackmap
+    experimental_stepvector,                   // llvm.experimental.stepvector
     experimental_vector_compress,              // llvm.experimental.vector.compress
     experimental_vector_histogram_add,         // llvm.experimental.vector.histogram.add
     experimental_vector_partial_reduce_add,    // llvm.experimental.vector.partial.reduce.add
@@ -173,7 +173,6 @@
     experimental_vp_strided_store,             // llvm.experimental.vp.strided.store
     experimental_widenable_condition,          // llvm.experimental.widenable.condition
     fabs,                                      // llvm.fabs
-    fake_use,                                  // llvm.fake.use
     floor,                                     // llvm.floor
     fma,                                       // llvm.fma
     fmuladd,                                   // llvm.fmuladd
@@ -238,7 +237,6 @@
     matrix_multiply,                           // llvm.matrix.multiply
     matrix_transpose,                          // llvm.matrix.transpose
     maximum,                                   // llvm.maximum
-    maximumnum,                                // llvm.maximumnum
     maxnum,                                    // llvm.maxnum
     memcpy,                                    // llvm.memcpy
     memcpy_element_unordered_atomic,           // llvm.memcpy.element.unordered.atomic
@@ -249,7 +247,6 @@
     memset_element_unordered_atomic,           // llvm.memset.element.unordered.atomic
     memset_inline,                             // llvm.memset.inline
     minimum,                                   // llvm.minimum
-    minimumnum,                                // llvm.minimumnum
     minnum,                                    // llvm.minnum
     nearbyint,                                 // llvm.nearbyint
     objc_arc_annotation_bottomup_bbend,        // llvm.objc.arc.annotation.bottomup.bbend
@@ -344,7 +341,6 @@
     stackrestore,                              // llvm.stackrestore
     stacksave,                                 // llvm.stacksave
     start_loop_iterations,                     // llvm.start.loop.iterations
-    stepvector,                                // llvm.stepvector
     strip_invariant_group,                     // llvm.strip.invariant.group
     swift_async_context_addr,                  // llvm.swift.async.context.addr
     tan,                                       // llvm.tan
@@ -490,10 +486,10 @@
     write_register,                            // llvm.write_register
     xray_customevent,                          // llvm.xray.customevent
     xray_typedevent,                           // llvm.xray.typedevent
-    num_intrinsics = 14333
+    num_intrinsics = 13938
 #endif
 
-// llvm::Intrinsic::IITDescriptor::ArgKind.
+// llvm::Intrinsic::IITDescriptor::ArgKind
 #ifdef GET_INTRINSIC_ARGKIND
     AK_Any = 0,
     AK_AnyInteger = 1,

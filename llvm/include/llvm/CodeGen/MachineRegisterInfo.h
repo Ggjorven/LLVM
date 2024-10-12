@@ -184,8 +184,6 @@ public:
       TheDelegate->MRI_NoteCloneVirtualRegister(NewReg, SrcReg);
   }
 
-  const MachineFunction &getMF() const { return *MF; }
-
   //===--------------------------------------------------------------------===//
   // Function State
   //===--------------------------------------------------------------------===//
@@ -803,7 +801,6 @@ public:
   /// of an earlier hint it will be overwritten.
   void setRegAllocationHint(Register VReg, unsigned Type, Register PrefReg) {
     assert(VReg.isVirtual());
-    RegAllocHints.grow(Register::index2VirtReg(getNumVirtRegs()));
     RegAllocHints[VReg].first  = Type;
     RegAllocHints[VReg].second.clear();
     RegAllocHints[VReg].second.push_back(PrefReg);
@@ -813,7 +810,6 @@ public:
   /// vector for VReg.
   void addRegAllocationHint(Register VReg, Register PrefReg) {
     assert(VReg.isVirtual());
-    RegAllocHints.grow(Register::index2VirtReg(getNumVirtRegs()));
     RegAllocHints[VReg].second.push_back(PrefReg);
   }
 
@@ -826,8 +822,7 @@ public:
   void clearSimpleHint(Register VReg) {
     assert (!RegAllocHints[VReg].first &&
             "Expected to clear a non-target hint!");
-    if (RegAllocHints.inBounds(VReg))
-      RegAllocHints[VReg].second.clear();
+    RegAllocHints[VReg].second.clear();
   }
 
   /// getRegAllocationHint - Return the register allocation hint for the
@@ -835,8 +830,6 @@ public:
   /// one with the greatest weight.
   std::pair<unsigned, Register> getRegAllocationHint(Register VReg) const {
     assert(VReg.isVirtual());
-    if (!RegAllocHints.inBounds(VReg))
-      return {0, Register()};
     Register BestHint = (RegAllocHints[VReg.id()].second.size() ?
                          RegAllocHints[VReg.id()].second[0] : Register());
     return {RegAllocHints[VReg.id()].first, BestHint};
@@ -852,10 +845,10 @@ public:
 
   /// getRegAllocationHints - Return a reference to the vector of all
   /// register allocation hints for VReg.
-  const std::pair<unsigned, SmallVector<Register, 4>> *
+  const std::pair<unsigned, SmallVector<Register, 4>> &
   getRegAllocationHints(Register VReg) const {
     assert(VReg.isVirtual());
-    return RegAllocHints.inBounds(VReg) ? &RegAllocHints[VReg] : nullptr;
+    return RegAllocHints[VReg];
   }
 
   /// markUsesInDebugValueAsUndef - Mark every DBG_VALUE referencing the

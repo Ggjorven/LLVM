@@ -7,7 +7,7 @@
 //===----------------------------------------------------------------------===//
 //
 // This file defines a set of enums which allow processing of intrinsic
-// functions. Values of these enum types are returned by
+// functions.  Values of these enum types are returned by
 // Function::getIntrinsicID.
 //
 //===----------------------------------------------------------------------===//
@@ -73,16 +73,11 @@ namespace Intrinsic {
   std::string getNameNoUnnamedTypes(ID Id, ArrayRef<Type *> Tys);
 
   /// Return the function type for an intrinsic.
-  FunctionType *getType(LLVMContext &Context, ID id, ArrayRef<Type *> Tys = {});
+  FunctionType *getType(LLVMContext &Context, ID id,
+                        ArrayRef<Type *> Tys = std::nullopt);
 
   /// Returns true if the intrinsic can be overloaded.
   bool isOverloaded(ID id);
-
-  /// isTargetIntrinsic - Returns true if IID is an intrinsic specific to a
-  /// certain target. If it is a generic intrinsic false is returned.
-  bool isTargetIntrinsic(ID IID);
-
-  ID lookupIntrinsicID(StringRef Name);
 
   /// Return the attributes for an intrinsic.
   AttributeList getAttributes(LLVMContext &C, ID id);
@@ -94,20 +89,21 @@ namespace Intrinsic {
   /// using iAny, fAny, vAny, or iPTRAny).  For a declaration of an overloaded
   /// intrinsic, Tys must provide exactly one type for each overloaded type in
   /// the intrinsic.
-  Function *getDeclaration(Module *M, ID id, ArrayRef<Type *> Tys = {});
+  Function *getDeclaration(Module *M, ID id,
+                           ArrayRef<Type *> Tys = std::nullopt);
 
   /// Looks up Name in NameTable via binary search. NameTable must be sorted
   /// and all entries must start with "llvm.".  If NameTable contains an exact
   /// match for Name or a prefix of Name followed by a dot, its index in
   /// NameTable is returned. Otherwise, -1 is returned.
   int lookupLLVMIntrinsicByName(ArrayRef<const char *> NameTable,
-                                StringRef Name, StringRef Target = "");
+                                StringRef Name);
 
   /// Map a Clang builtin name to an intrinsic ID.
-  ID getIntrinsicForClangBuiltin(StringRef TargetPrefix, StringRef BuiltinName);
+  ID getIntrinsicForClangBuiltin(const char *Prefix, StringRef BuiltinName);
 
   /// Map a MS builtin name to an intrinsic ID.
-  ID getIntrinsicForMSBuiltin(StringRef TargetPrefix, StringRef BuiltinName);
+  ID getIntrinsicForMSBuiltin(const char *Prefix, StringRef BuiltinName);
 
   /// Returns true if the intrinsic ID is for one of the "Constrained
   /// Floating-Point Intrinsics".

@@ -1,11 +1,19 @@
+/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
+|*                                                                            *|
+|* Intrinsic Function Source Fragment                                         *|
+|*                                                                            *|
+|* Automatically generated file, do not edit!                                 *|
+|*                                                                            *|
+\*===----------------------------------------------------------------------===*/
 
 #ifndef LLVM_IR_INTRINSIC_ARM_ENUMS_H
 #define LLVM_IR_INTRINSIC_ARM_ENUMS_H
+
 namespace llvm {
 namespace Intrinsic {
 enum ARMIntrinsics : unsigned {
 // Enum values for intrinsics
-    arm_cde_cx1 = 1956,                               // llvm.arm.cde.cx1
+    arm_cde_cx1 = 3126,                               // llvm.arm.cde.cx1
     arm_cde_cx1a,                              // llvm.arm.cde.cx1a
     arm_cde_cx1d,                              // llvm.arm.cde.cx1d
     arm_cde_cx1da,                             // llvm.arm.cde.cx1da
@@ -358,6 +366,8 @@ enum ARMIntrinsics : unsigned {
     arm_neon_vqmovnsu,                         // llvm.arm.neon.vqmovnsu
     arm_neon_vqmovnu,                          // llvm.arm.neon.vqmovnu
     arm_neon_vqneg,                            // llvm.arm.neon.vqneg
+    arm_neon_vqrdmlah,                         // llvm.arm.neon.vqrdmlah
+    arm_neon_vqrdmlsh,                         // llvm.arm.neon.vqrdmlsh
     arm_neon_vqrdmulh,                         // llvm.arm.neon.vqrdmulh
     arm_neon_vqrshiftns,                       // llvm.arm.neon.vqrshiftns
     arm_neon_vqrshiftnsu,                      // llvm.arm.neon.vqrshiftnsu
@@ -497,4 +507,5 @@ enum ARMIntrinsics : unsigned {
 }; // enum
 } // namespace Intrinsic
 } // namespace llvm
+
 #endif

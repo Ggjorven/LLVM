@@ -55,8 +55,11 @@
 namespace llvm {
 
 class Constant;
+class Function;
 template <class GraphType> struct GraphTraits;
 class Module;
+class TargetLibraryInfo;
+class Value;
 
 /// A lazily constructed view of the call graph of a module.
 ///
@@ -108,6 +111,7 @@ class LazyCallGraph {
 public:
   class Node;
   class EdgeSequence;
+  class SCC;
   class RefSCC;
 
   /// A class used to represent edges in the call graph.
@@ -412,7 +416,7 @@ public:
   /// outer structure. SCCs do not support mutation of the call graph, that
   /// must be done through the containing \c RefSCC in order to fully reason
   /// about the ordering and connections of the graph.
-  class LLVM_ABI SCC {
+  class LLVM_EXTERNAL_VISIBILITY SCC {
     friend class LazyCallGraph;
     friend class LazyCallGraph::Node;
 

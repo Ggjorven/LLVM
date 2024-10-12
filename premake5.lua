@@ -9,25 +9,9 @@ project "LLVM"
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
-    files {
-        "llvm/lib/**.c",
-        "llvm/lib/**.cpp",
-    }
-
-    includedirs {
-        "llvm/include",
-        "lld/include"
-    }
-
-    defines {
-        "TODO"  -- Define your custom defines here
-    }
-
-    -- Add the common defines from llvm-config.h
-    defines
-	{
-        -- "LLVM_ENABLE_DUMP",
-        "LLVM_PLATFORM_X86",
+    files 
+    {
+        "LLVM/src/lib.cpp",
     }
 
     -- Platform-specific defines for various targets
@@ -36,15 +20,34 @@ project "LLVM"
         systemversion "latest"
         staticruntime "on"
 
+        links
+        {
+            "LLVM/lib/windows/lldCommon.lib",
+            
+            "LLVM/lib/windows/LLVMCodeGen.lib",
+            "LLVM/lib/windows/LLVMCore.lib",
+            "LLVM/lib/windows/LLVMLinker.lib",
+        }
+
     filter "system:linux"
         defines "LLVM_PLATFORM_LINUX"
         systemversion "latest"
         staticruntime "on"
 
+        links
+        {
+            -- TODO
+        }
+
     filter "system:macosx"
         defines "LLVM_PLATFORM_MACOS"
         systemversion(MacOSVersion)
         staticruntime "on"
+
+        links
+        {
+            -- TODO
+        }
 
     filter "action:xcode*"
         -- Note: If we don't add the header files to the externalincludedirs
@@ -54,35 +57,6 @@ project "LLVM"
             "llvm",
             "lld"
         }
-
-    -- Add architecture-specific target defines
-    -- defines 
-	-- {
-    --     "LLVM_HAS_AARCH64_TARGET=1",
-    --     "LLVM_HAS_AMDGPU_TARGET=0",
-    --     "LLVM_HAS_ARC_TARGET=0",
-    --     "LLVM_HAS_ARM_TARGET=1",
-    --     "LLVM_HAS_AVR_TARGET=0",
-    --     "LLVM_HAS_BPF_TARGET=1",
-    --     "LLVM_HAS_CSKY_TARGET=0",
-    --     "LLVM_HAS_DIRECTX_TARGET=0",
-    --     "LLVM_HAS_HEXAGON_TARGET=0",
-    --     "LLVM_HAS_LANAI_TARGET=0",
-    --     "LLVM_HAS_LOONGARCH_TARGET=0",
-    --     "LLVM_HAS_M68K_TARGET=0",
-    --     "LLVM_HAS_MIPS_TARGET=0",
-    --     "LLVM_HAS_MSP430_TARGET=0",
-    --     "LLVM_HAS_NVPTX_TARGET=1",
-    --     "LLVM_HAS_POWERPC_TARGET=0",
-    --     "LLVM_HAS_RISCV_TARGET=1",
-    --     "LLVM_HAS_SPARC_TARGET=0",
-    --     "LLVM_HAS_SPIRV_TARGET=1",
-    --     "LLVM_HAS_SYSTEMZ_TARGET=0",
-    --     "LLVM_HAS_VE_TARGET=0",
-    --     "LLVM_HAS_WEBASSEMBLY_TARGET=1",
-    --     "LLVM_HAS_XCORE_TARGET=0",
-    --     "LLVM_HAS_XTENSA_TARGET=0"
-    -- }
 
     filter "configurations:Debug"
         runtime "Debug"

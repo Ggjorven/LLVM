@@ -8,10 +8,12 @@
 
 #ifndef LLVM_IR_INTRINSIC_AMDGCN_ENUMS_H
 #define LLVM_IR_INTRINSIC_AMDGCN_ENUMS_H
-namespace llvm::Intrinsic {
+
+namespace llvm {
+namespace Intrinsic {
 enum AMDGCNIntrinsics : unsigned {
-// Enum values for intrinsics.
-    amdgcn_addrspacecast_nonnull = 1982,              // llvm.amdgcn.addrspacecast.nonnull
+// Enum values for intrinsics
+    amdgcn_addrspacecast_nonnull = 1951,              // llvm.amdgcn.addrspacecast.nonnull
     amdgcn_alignbyte,                          // llvm.amdgcn.alignbyte
     amdgcn_atomic_cond_sub_u32,                // llvm.amdgcn.atomic.cond.sub.u32
     amdgcn_ballot,                             // llvm.amdgcn.ballot
@@ -77,6 +79,8 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_fdot2_bf16_bf16,                    // llvm.amdgcn.fdot2.bf16.bf16
     amdgcn_fdot2_f16_f16,                      // llvm.amdgcn.fdot2.f16.f16
     amdgcn_fdot2_f32_bf16,                     // llvm.amdgcn.fdot2.f32.bf16
+    amdgcn_flat_atomic_fadd,                   // llvm.amdgcn.flat.atomic.fadd
+    amdgcn_flat_atomic_fadd_v2bf16,            // llvm.amdgcn.flat.atomic.fadd.v2bf16
     amdgcn_flat_atomic_fmax,                   // llvm.amdgcn.flat.atomic.fmax
     amdgcn_flat_atomic_fmax_num,               // llvm.amdgcn.flat.atomic.fmax.num
     amdgcn_flat_atomic_fmin,                   // llvm.amdgcn.flat.atomic.fmin
@@ -89,6 +93,8 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_frexp_exp,                          // llvm.amdgcn.frexp.exp
     amdgcn_frexp_mant,                         // llvm.amdgcn.frexp.mant
     amdgcn_global_atomic_csub,                 // llvm.amdgcn.global.atomic.csub
+    amdgcn_global_atomic_fadd,                 // llvm.amdgcn.global.atomic.fadd
+    amdgcn_global_atomic_fadd_v2bf16,          // llvm.amdgcn.global.atomic.fadd.v2bf16
     amdgcn_global_atomic_fmax,                 // llvm.amdgcn.global.atomic.fmax
     amdgcn_global_atomic_fmax_num,             // llvm.amdgcn.global.atomic.fmax.num
     amdgcn_global_atomic_fmin,                 // llvm.amdgcn.global.atomic.fmin
@@ -865,7 +871,6 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_implicitarg_ptr,                    // llvm.amdgcn.implicitarg.ptr
     amdgcn_init_exec,                          // llvm.amdgcn.init.exec
     amdgcn_init_exec_from_input,               // llvm.amdgcn.init.exec.from.input
-    amdgcn_init_whole_wave,                    // llvm.amdgcn.init.whole.wave
     amdgcn_interp_inreg_p10,                   // llvm.amdgcn.interp.inreg.p10
     amdgcn_interp_inreg_p10_f16,               // llvm.amdgcn.interp.inreg.p10.f16
     amdgcn_interp_inreg_p2,                    // llvm.amdgcn.interp.inreg.p2
@@ -1020,7 +1025,6 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_s_barrier_wait,                     // llvm.amdgcn.s.barrier.wait
     amdgcn_s_bitreplicate,                     // llvm.amdgcn.s.bitreplicate
     amdgcn_s_buffer_load,                      // llvm.amdgcn.s.buffer.load
-    amdgcn_s_buffer_prefetch_data,             // llvm.amdgcn.s.buffer.prefetch.data
     amdgcn_s_dcache_inv,                       // llvm.amdgcn.s.dcache.inv
     amdgcn_s_dcache_inv_vol,                   // llvm.amdgcn.s.dcache.inv.vol
     amdgcn_s_dcache_wb,                        // llvm.amdgcn.s.dcache.wb
@@ -1034,7 +1038,6 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_s_memrealtime,                      // llvm.amdgcn.s.memrealtime
     amdgcn_s_memtime,                          // llvm.amdgcn.s.memtime
     amdgcn_s_nop,                              // llvm.amdgcn.s.nop
-    amdgcn_s_prefetch_data,                    // llvm.amdgcn.s.prefetch.data
     amdgcn_s_quadmask,                         // llvm.amdgcn.s.quadmask
     amdgcn_s_sendmsg,                          // llvm.amdgcn.s.sendmsg
     amdgcn_s_sendmsg_rtn,                      // llvm.amdgcn.s.sendmsg.rtn
@@ -1088,7 +1091,6 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_sqrt,                               // llvm.amdgcn.sqrt
     amdgcn_strict_wqm,                         // llvm.amdgcn.strict.wqm
     amdgcn_strict_wwm,                         // llvm.amdgcn.strict.wwm
-    amdgcn_struct_atomic_buffer_load,          // llvm.amdgcn.struct.atomic.buffer.load
     amdgcn_struct_buffer_atomic_add,           // llvm.amdgcn.struct.buffer.atomic.add
     amdgcn_struct_buffer_atomic_and,           // llvm.amdgcn.struct.buffer.atomic.and
     amdgcn_struct_buffer_atomic_cmpswap,       // llvm.amdgcn.struct.buffer.atomic.cmpswap
@@ -1111,7 +1113,6 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_struct_buffer_load_lds,             // llvm.amdgcn.struct.buffer.load.lds
     amdgcn_struct_buffer_store,                // llvm.amdgcn.struct.buffer.store
     amdgcn_struct_buffer_store_format,         // llvm.amdgcn.struct.buffer.store.format
-    amdgcn_struct_ptr_atomic_buffer_load,      // llvm.amdgcn.struct.ptr.atomic.buffer.load
     amdgcn_struct_ptr_buffer_atomic_add,       // llvm.amdgcn.struct.ptr.buffer.atomic.add
     amdgcn_struct_ptr_buffer_atomic_and,       // llvm.amdgcn.struct.ptr.buffer.atomic.and
     amdgcn_struct_ptr_buffer_atomic_cmpswap,   // llvm.amdgcn.struct.ptr.buffer.atomic.cmpswap
@@ -1188,6 +1189,7 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_writelane,                          // llvm.amdgcn.writelane
     amdgcn_wwm,                                // llvm.amdgcn.wwm
 }; // enum
-} // namespace llvm::Intrinsic
-#endif
+} // namespace Intrinsic
+} // namespace llvm
 
+#endif

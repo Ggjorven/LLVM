@@ -254,10 +254,10 @@ public:
   TLSModel::Model getTLSModel(const GlobalValue *GV) const;
 
   /// Returns the optimization level: None, Less, Default, or Aggressive.
-  CodeGenOptLevel getOptLevel() const { return OptLevel; }
+  CodeGenOptLevel getOptLevel() const;
 
   /// Overrides the optimization level.
-  void setOptLevel(CodeGenOptLevel Level) { OptLevel = Level; }
+  void setOptLevel(CodeGenOptLevel Level);
 
   void setFastISel(bool Enable) { Options.EnableFastISel = Enable; }
   bool getO0WantsFastISel() { return O0WantsFastISel; }

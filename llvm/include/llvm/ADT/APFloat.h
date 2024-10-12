@@ -188,9 +188,6 @@ struct APFloatBase {
     // This format's exponent bias is 11, instead of the 7 (2 ** (4 - 1) - 1)
     // that IEEE precedent would imply.
     S_Float8E4M3B11FNUZ,
-    // 8-bit floating point number following IEEE-754 conventions with bit
-    // layout S1E3M4.
-    S_Float8E3M4,
     // Floating point number that occupies 32 bits or less of storage, providing
     // improved range compared to half (16-bit) formats, at (potentially)
     // greater throughput than single precision (32-bit) formats.
@@ -227,7 +224,6 @@ struct APFloatBase {
   static const fltSemantics &Float8E4M3FN() LLVM_READNONE;
   static const fltSemantics &Float8E4M3FNUZ() LLVM_READNONE;
   static const fltSemantics &Float8E4M3B11FNUZ() LLVM_READNONE;
-  static const fltSemantics &Float8E3M4() LLVM_READNONE;
   static const fltSemantics &FloatTF32() LLVM_READNONE;
   static const fltSemantics &Float6E3M2FN() LLVM_READNONE;
   static const fltSemantics &Float6E2M3FN() LLVM_READNONE;
@@ -650,7 +646,6 @@ private:
   APInt convertFloat8E4M3FNAPFloatToAPInt() const;
   APInt convertFloat8E4M3FNUZAPFloatToAPInt() const;
   APInt convertFloat8E4M3B11FNUZAPFloatToAPInt() const;
-  APInt convertFloat8E3M4APFloatToAPInt() const;
   APInt convertFloatTF32APFloatToAPInt() const;
   APInt convertFloat6E3M2FNAPFloatToAPInt() const;
   APInt convertFloat6E2M3FNAPFloatToAPInt() const;
@@ -670,7 +665,6 @@ private:
   void initFromFloat8E4M3FNAPInt(const APInt &api);
   void initFromFloat8E4M3FNUZAPInt(const APInt &api);
   void initFromFloat8E4M3B11FNUZAPInt(const APInt &api);
-  void initFromFloat8E3M4APInt(const APInt &api);
   void initFromFloatTF32APInt(const APInt &api);
   void initFromFloat6E3M2FNAPInt(const APInt &api);
   void initFromFloat6E2M3FNAPInt(const APInt &api);
@@ -1483,14 +1477,13 @@ inline APFloat maxnum(const APFloat &A, const APFloat &B) {
 }
 
 /// Implements IEEE 754-2019 minimum semantics. Returns the smaller of 2
-/// arguments, returning a quiet NaN if an argument is a NaN and treating -0
-/// as less than +0.
+/// arguments, propagating NaNs and treating -0 as less than +0.
 LLVM_READONLY
 inline APFloat minimum(const APFloat &A, const APFloat &B) {
   if (A.isNaN())
-    return A.makeQuiet();
+    return A;
   if (B.isNaN())
-    return B.makeQuiet();
+    return B;
   if (A.isZero() && B.isZero() && (A.isNegative() != B.isNegative()))
     return A.isNegative() ? A : B;
   return B < A ? B : A;
@@ -1510,14 +1503,13 @@ inline APFloat minimumnum(const APFloat &A, const APFloat &B) {
 }
 
 /// Implements IEEE 754-2019 maximum semantics. Returns the larger of 2
-/// arguments, returning a quiet NaN if an argument is a NaN and treating -0
-/// as less than +0.
+/// arguments, propagating NaNs and treating -0 as less than +0.
 LLVM_READONLY
 inline APFloat maximum(const APFloat &A, const APFloat &B) {
   if (A.isNaN())
-    return A.makeQuiet();
+    return A;
   if (B.isNaN())
-    return B.makeQuiet();
+    return B;
   if (A.isZero() && B.isZero() && (A.isNegative() != B.isNegative()))
     return A.isNegative() ? B : A;
   return A < B ? B : A;
@@ -1534,11 +1526,6 @@ inline APFloat maximumnum(const APFloat &A, const APFloat &B) {
   if (A.isZero() && B.isZero() && (A.isNegative() != B.isNegative()))
     return A.isNegative() ? B : A;
   return A < B ? B : A;
-}
-
-inline raw_ostream &operator<<(raw_ostream &OS, const APFloat &V) {
-  V.print(OS);
-  return OS;
 }
 
 // We want the following functions to be available in the header for inlining.

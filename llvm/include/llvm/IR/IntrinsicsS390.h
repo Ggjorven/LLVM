@@ -8,10 +8,12 @@
 
 #ifndef LLVM_IR_INTRINSIC_S390_ENUMS_H
 #define LLVM_IR_INTRINSIC_S390_ENUMS_H
-namespace llvm::Intrinsic {
+
+namespace llvm {
+namespace Intrinsic {
 enum S390Intrinsics : unsigned {
-// Enum values for intrinsics.
-    s390_efpc = 10948,                                 // llvm.s390.efpc
+// Enum values for intrinsics
+    s390_efpc = 10886,                                 // llvm.s390.efpc
     s390_etnd,                                 // llvm.s390.etnd
     s390_lcbb,                                 // llvm.s390.lcbb
     s390_ntstg,                                // llvm.s390.ntstg
@@ -237,6 +239,7 @@ enum S390Intrinsics : unsigned {
     s390_vupllf,                               // llvm.s390.vupllf
     s390_vupllh,                               // llvm.s390.vupllh
 }; // enum
-} // namespace llvm::Intrinsic
-#endif
+} // namespace Intrinsic
+} // namespace llvm
 
+#endif

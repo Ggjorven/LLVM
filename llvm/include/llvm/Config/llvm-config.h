@@ -8,36 +8,30 @@
 /*===----------------------------------------------------------------------===*/
 
 /* This file enumerates variables from the LLVM configuration so that they
-   can be in exported headers and won't override package-specific directives.
+   can be in exported headers and won't override package specific directives.
    This is a C header that can be included in the llvm-c headers. */
 
 #ifndef LLVM_CONFIG_H
 #define LLVM_CONFIG_H
 
 /* Define if LLVM_ENABLE_DUMP is enabled */
-#if defined(LLVM_ENABLE_DUMP)
-#define LLVM_ENABLE_DUMP 1
-#endif
+/* #undef LLVM_ENABLE_DUMP */
 
 /* Target triple LLVM will generate code for by default */
 /* Doesn't use `cmakedefine` because it is allowed to be empty. */
-#define LLVM_DEFAULT_TARGET_TRIPLE "x86_64-unknown-linux-gnu"
+#define LLVM_DEFAULT_TARGET_TRIPLE "x86_64-pc-windows-msvc"
 
-/* Define if threads are enabled */
-#if defined(LLVM_PLATFORM_LINUX) || defined(LLVM_PLATFORM_WINDOWS)
+/* Define if threads enabled */
 #define LLVM_ENABLE_THREADS 1
-#endif
 
 /* Has gcc/MSVC atomic intrinsics */
-#if defined(LLVM_PLATFORM_LINUX) || defined(LLVM_PLATFORM_WINDOWS)
 #define LLVM_HAS_ATOMICS 1
-#endif
 
 /* Host triple LLVM will be executed on */
-#define LLVM_HOST_TRIPLE "x86_64-unknown-linux-gnu"
+#define LLVM_HOST_TRIPLE "x86_64-pc-windows-msvc"
 
 /* LLVM architecture name for the native architecture, if available */
-#define LLVM_NATIVE_ARCH "x86_64"
+#define LLVM_NATIVE_ARCH X86
 
 /* LLVM name for the native AsmParser init function, if available */
 #define LLVM_NATIVE_ASMPARSER LLVMInitializeX86AsmParser
@@ -58,182 +52,153 @@
 #define LLVM_NATIVE_TARGETMC LLVMInitializeX86TargetMC
 
 /* LLVM name for the native target MCA init function, if available */
-#define LLVM_NATIVE_TARGETMCA LLVMInitializeX86TargetMCA
+/* #undef LLVM_NATIVE_TARGETMCA */
 
 /* Define if the AArch64 target is built in */
-#if defined(LLVM_PLATFORM_AARCH64)
 #define LLVM_HAS_AARCH64_TARGET 1
-#endif
 
 /* Define if the AMDGPU target is built in */
-#if defined(LLVM_PLATFORM_AMDGPU)
 #define LLVM_HAS_AMDGPU_TARGET 1
-#endif
 
 /* Define if the ARC target is built in */
-#if defined(LLVM_PLATFORM_ARC)
-#define LLVM_HAS_ARC_TARGET 1
-#endif
+#define LLVM_HAS_ARC_TARGET 0
 
 /* Define if the ARM target is built in */
-#if defined(LLVM_PLATFORM_ARM)
 #define LLVM_HAS_ARM_TARGET 1
-#endif
 
 /* Define if the AVR target is built in */
-#if defined(LLVM_PLATFORM_AVR)
 #define LLVM_HAS_AVR_TARGET 1
-#endif
 
 /* Define if the BPF target is built in */
-#if defined(LLVM_PLATFORM_BPF)
 #define LLVM_HAS_BPF_TARGET 1
-#endif
 
 /* Define if the CSKY target is built in */
-#if defined(LLVM_PLATFORM_CSKY)
-#define LLVM_HAS_CSKY_TARGET 1
-#endif
+#define LLVM_HAS_CSKY_TARGET 0
 
 /* Define if the DirectX target is built in */
-#if defined(LLVM_PLATFORM_DIRECTX)
-#define LLVM_HAS_DIRECTX_TARGET 1
-#endif
+#define LLVM_HAS_DIRECTX_TARGET 0
 
 /* Define if the Hexagon target is built in */
-#if defined(LLVM_PLATFORM_HEXAGON)
 #define LLVM_HAS_HEXAGON_TARGET 1
-#endif
 
 /* Define if the Lanai target is built in */
-#if defined(LLVM_PLATFORM_LANAI)
 #define LLVM_HAS_LANAI_TARGET 1
-#endif
 
 /* Define if the LoongArch target is built in */
-#if defined(LLVM_PLATFORM_LOONGARCH)
 #define LLVM_HAS_LOONGARCH_TARGET 1
-#endif
 
 /* Define if the M68k target is built in */
-#if defined(LLVM_PLATFORM_M68K)
-#define LLVM_HAS_M68K_TARGET 1
-#endif
+#define LLVM_HAS_M68K_TARGET 0
 
 /* Define if the Mips target is built in */
-#if defined(LLVM_PLATFORM_MIPS)
 #define LLVM_HAS_MIPS_TARGET 1
-#endif
 
 /* Define if the MSP430 target is built in */
-#if defined(LLVM_PLATFORM_MSP430)
 #define LLVM_HAS_MSP430_TARGET 1
-#endif
 
 /* Define if the NVPTX target is built in */
-#if defined(LLVM_PLATFORM_NVPTX)
 #define LLVM_HAS_NVPTX_TARGET 1
-#endif
 
 /* Define if the PowerPC target is built in */
-#if defined(LLVM_PLATFORM_POWERPC)
 #define LLVM_HAS_POWERPC_TARGET 1
-#endif
 
 /* Define if the RISCV target is built in */
-#if defined(LLVM_PLATFORM_RISCV)
 #define LLVM_HAS_RISCV_TARGET 1
-#endif
 
 /* Define if the Sparc target is built in */
-#if defined(LLVM_PLATFORM_SPARC)
 #define LLVM_HAS_SPARC_TARGET 1
-#endif
 
 /* Define if the SPIRV target is built in */
-#if defined(LLVM_PLATFORM_SPIRV)
-#define LLVM_HAS_SPIRV_TARGET 1
-#endif
+#define LLVM_HAS_SPIRV_TARGET 0
 
 /* Define if the SystemZ target is built in */
-#if defined(LLVM_PLATFORM_SYSTEMZ)
 #define LLVM_HAS_SYSTEMZ_TARGET 1
-#endif
 
 /* Define if the VE target is built in */
-#if defined(LLVM_PLATFORM_VE)
 #define LLVM_HAS_VE_TARGET 1
-#endif
 
 /* Define if the WebAssembly target is built in */
-#if defined(LLVM_PLATFORM_WEBASSEMBLY)
 #define LLVM_HAS_WEBASSEMBLY_TARGET 1
-#endif
 
 /* Define if the X86 target is built in */
-#if defined(LLVM_PLATFORM_X86)
 #define LLVM_HAS_X86_TARGET 1
-#endif
 
 /* Define if the XCore target is built in */
-#if defined(LLVM_PLATFORM_XCORE)
 #define LLVM_HAS_XCORE_TARGET 1
-#endif
 
 /* Define if the Xtensa target is built in */
-#if defined(LLVM_PLATFORM_XTENSA)
-#define LLVM_HAS_XTENSA_TARGET 1
-#endif
+#define LLVM_HAS_XTENSA_TARGET 0
 
-/* Define if this is a Unix-like LLVM_PLATFORM */
-#if defined(LLVM_PLATFORM_LINUX) || defined(LLVM_PLATFORM_MAC)
-#define LLVM_ON_UNIX 1
-#endif
+/* Define if this is Unixish platform */
+/* #undef LLVM_ON_UNIX */
 
 /* Define if we have the Intel JIT API runtime support library */
-#if defined(LLVM_PLATFORM_INTEL_JIT)
-#define LLVM_USE_INTEL_JITEVENTS 1
-#endif
+#define LLVM_USE_INTEL_JITEVENTS 0
 
 /* Define if we have the oprofile JIT-support library */
-#if defined(LLVM_PLATFORM_OPROFILE)
-#define LLVM_USE_OPROFILE 1
-#endif
+#define LLVM_USE_OPROFILE 0
 
 /* Define if we have the perf JIT-support library */
-#if defined(LLVM_PLATFORM_PERF)
-#define LLVM_USE_PERF 1
-#endif
+#define LLVM_USE_PERF 0
 
 /* Major version of the LLVM API */
-#define LLVM_VERSION_MAJOR 15
+#define LLVM_VERSION_MAJOR 19
 
 /* Minor version of the LLVM API */
-#define LLVM_VERSION_MINOR 0
+#define LLVM_VERSION_MINOR 1
 
 /* Patch version of the LLVM API */
-#define LLVM_VERSION_PATCH 1
+#define LLVM_VERSION_PATCH 0
 
 /* LLVM version string */
-#define LLVM_VERSION_STRING "15.0.1"
+#define LLVM_VERSION_STRING "19.1.0"
 
 /* Whether LLVM records statistics for use with GetStatistics(),
  * PrintStatistics() or PrintStatisticsJSON()
  */
-#if defined(LLVM_PLATFORM_STATS)
-#define LLVM_FORCE_ENABLE_STATS 1
-#else
 #define LLVM_FORCE_ENABLE_STATS 0
-#endif
 
 /* Define if we have z3 and want to build it */
-#if defined(LLVM_PLATFORM_Z3)
-#define LLVM_WITH_Z3 1
-#endif
+/* #undef LLVM_WITH_Z3 */
 
 /* Define if we have curl and want to use it */
-#if defined(LLVM_PLATFORM_CURL)
-#define LLVM_ENABLE_CURL 1
-#endif
+/* #undef LLVM_ENABLE_CURL */
+
+/* Define if we have cpp-httplib and want to use it */
+/* #undef LLVM_ENABLE_HTTPLIB */
+
+/* Define if zlib compression is available */
+#define LLVM_ENABLE_ZLIB 0
+
+/* Define if zstd compression is available */
+#define LLVM_ENABLE_ZSTD 0
+
+/* Define if LLVM is using tflite */
+/* #undef LLVM_HAVE_TFLITE */
+
+/* Define to 1 if you have the <sysexits.h> header file. */
+/* #undef HAVE_SYSEXITS_H */
+
+/* Define if building libLLVM shared library */
+/* #undef LLVM_BUILD_LLVM_DYLIB */
+
+/* Define if building LLVM with BUILD_SHARED_LIBS */
+/* #undef LLVM_BUILD_SHARED_LIBS */
+
+/* Define if building LLVM with LLVM_FORCE_USE_OLD_TOOLCHAIN_LIBS */
+/* #undef LLVM_FORCE_USE_OLD_TOOLCHAIN */
+
+/* Define if llvm_unreachable should be optimized with undefined behavior
+ * in non assert builds */
+#define LLVM_UNREACHABLE_OPTIMIZE 1
+
+/* Define to 1 if you have the DIA SDK installed, and to 0 if you don't. */
+#define LLVM_ENABLE_DIA_SDK 1
+
+/* Define if plugins enabled */
+/* #undef LLVM_ENABLE_PLUGINS */
+
+/* Define if logf128 is available */
+/* #undef LLVM_HAS_LOGF128 */
 
 #endif

@@ -47,7 +47,6 @@ struct PoisonFlags {
   unsigned Exact : 1;
   unsigned Disjoint : 1;
   unsigned NNeg : 1;
-  GEPNoWrapFlags GEPNW;
 
   PoisonFlags(const Instruction *I);
   void apply(Instruction *I);
