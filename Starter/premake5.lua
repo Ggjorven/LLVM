@@ -4,7 +4,7 @@ project "Starter"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++20"
-	staticruntime "On"
+	staticruntime "Off"
 
 	architecture "x86_64"
 
@@ -39,7 +39,17 @@ project "Starter"
 
 	links
 	{
-		"%{Dependencies.LLVM.LibName}",
+		"ntdll.lib"
+	}
+
+	buildoptions
+	{
+		LLVM_flags,
+	}
+
+	linkoptions
+	{
+		LLVM_libs,
 	}
 
 	--------------------------------------
@@ -76,7 +86,7 @@ project "Starter"
 	--------------------------------------
 	filter "configurations:Debug"
 		defines "APP_CONFIG_DEBUG"
-		runtime "Debug"
+		runtime "Release" -- Note: LLVM's binaries are release, so this is necessary
 		symbols "on"
 
 	filter "configurations:Release"

@@ -1,39 +1,32 @@
-#include <llvm/IR/LLVMContext.h>
-#include <llvm/IR/IRBuilder.h>
-#include <llvm/IR/Module.h>
-#include <llvm/IR/Verifier.h>
-#include <llvm/Support/TargetSelect.h>
-#include <llvm/Support/raw_ostream.h>
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/Verifier.h"
+#include "llvm/Support/raw_ostream.h"
 
-int main() 
-{
-    // Initialize LLVM components
-    llvm::InitializeNativeTarget();
-    llvm::InitializeNativeTargetAsmPrinter();
+int main() {
+    // Create a new LLVM context, module, and builder
     llvm::LLVMContext context;
+    llvm::Module module("test", context);
+    llvm::IRBuilder<> builder(context);
 
-    // Create a new module
-    std::unique_ptr<llvm::Module> module = std::make_unique<llvm::Module>("test_module", context);
+    // Define the return type (int) and the function signature (no arguments)
+    llvm::FunctionType* funcType = llvm::FunctionType::get(builder.getInt32Ty(), false);
+    llvm::Function* mainFunction = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, "main", module);
 
-    // Create a function signature (int32_t foo())
-    llvm::FunctionType* functionType = llvm::FunctionType::get(llvm::Type::getInt32Ty(context), false);
-    llvm::Function* fooFunction = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, "foo", module.get());
+    // Create a basic block in the function and set the insertion point
+    llvm::BasicBlock* block = llvm::BasicBlock::Create(context, "entry", mainFunction);
+    builder.SetInsertPoint(block);
 
-    // Create a basic block and set an IR builder to insert instructions
-    llvm::BasicBlock* entryBlock = llvm::BasicBlock::Create(context, "entry", fooFunction);
-    llvm::IRBuilder<> builder(entryBlock);
+    // Add a return instruction (returning 42)
+    builder.CreateRet(llvm::ConstantInt::get(context, llvm::APInt(32, 42)));
 
-    // Return a constant value (e.g., return 42;)
-    builder.CreateRet(llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), 42));
+    // Verify the function and module
+    llvm::verifyFunction(*mainFunction);
+    llvm::verifyModule(module, &llvm::errs());
 
-    // Verify the generated module
-    if (llvm::verifyFunction(*fooFunction, &llvm::errs())) {
-        llvm::errs() << "Function verification failed!\n";
-        return 1;
-    }
-
-    // Print the LLVM IR to stdout
-    module->print(llvm::outs(), nullptr);
+    // Print the generated LLVM IR to the standard output
+    module.print(llvm::outs(), nullptr);
 
     return 0;
 }
