@@ -37,11 +37,6 @@ project "Starter"
 		"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
 	}
 
-	links
-	{
-		"ntdll.lib"
-	}
-
 	buildoptions
 	{
 		LLVM_flags,
@@ -58,6 +53,11 @@ project "Starter"
 	filter "system:windows"
 		defines "APP_PLATFORM_WINDOWS"
 		systemversion "latest"
+
+		links
+		{
+			"ntdll.lib"
+		}
 
 	filter "system:linux"
 		defines "APP_PLATFORM_LINUX"
@@ -78,7 +78,7 @@ project "Starter"
 			"src",
 			"src/Dynamite",
 
-			"%{Dependencies.LLVM.LibName}",
+			"%{Dependencies.LLVM.IncludeDir}",
 		}
 
 	--------------------------------------
