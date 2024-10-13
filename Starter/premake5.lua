@@ -27,8 +27,6 @@ project "Starter"
 	includedirs
 	{
 		"src",
-
-		"%{Dependencies.LLVM.IncludeDir}",
 	}
 
 	defines
@@ -39,12 +37,12 @@ project "Starter"
 
 	buildoptions
 	{
-		LLVM_flags,
+		LLVM_Flags,
 	}
 
 	linkoptions
 	{
-		LLVM_libs,
+		LLVM_Libs,
 	}
 
 	--------------------------------------
@@ -68,17 +66,11 @@ project "Starter"
 		systemversion(MacOSVersion)
 
 	filter "action:xcode*"
-		-- Note: XCode needs the full pch header path
-		pchheader "src/Dynamite/dypch.h"
-
 		-- Note: If we don't add the header files to the externalincludedirs
 		-- we can't use <angled> brackets to include files.
 		externalincludedirs
 		{
 			"src",
-			"src/Dynamite",
-
-			"%{Dependencies.LLVM.IncludeDir}",
 		}
 
 	--------------------------------------

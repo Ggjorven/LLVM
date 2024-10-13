@@ -12,7 +12,12 @@
 #include <llvm/TargetParser/Host.h>
 #include <llvm/MC/TargetRegistry.h>
 
-int main(int argc, char** argv) {
+#include <lld/Common/Driver.h>
+
+LLD_HAS_DRIVER(coff)
+
+int main(int argc, char** argv) 
+{
     llvm::InitLLVM X(argc, argv);
     llvm::LLVMContext context;
     llvm::Module module("my_module", context);
@@ -29,7 +34,8 @@ int main(int argc, char** argv) {
     builder.CreateRet(llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), 69));
 
     // Verify the module to ensure it's correct
-    if (llvm::verifyModule(module, &llvm::errs())) {
+    if (llvm::verifyModule(module, &llvm::errs())) 
+    {
         llvm::errs() << "Module verification failed\n";
         return 1;
     }
@@ -46,7 +52,8 @@ int main(int argc, char** argv) {
     std::string error;
     const llvm::Target* target = llvm::TargetRegistry::lookupTarget(targetTriple, error);
 
-    if (!target) {
+    if (!target) 
+    {
         llvm::errs() << "Error: " << error << "\n";
         return 1;
     }
@@ -57,7 +64,8 @@ int main(int argc, char** argv) {
 
     llvm::StringMap<bool> Features = llvm::sys::getHostCPUFeatures();
     std::string featuresStr;
-    for (auto& Feature : Features) {
+    for (auto& Feature : Features) 
+    {
         if (Feature.second)
             featuresStr += "+" + Feature.first().str() + ",";
     }
@@ -70,7 +78,8 @@ int main(int argc, char** argv) {
     std::error_code EC;
     llvm::raw_fd_ostream dest("output.o", EC, llvm::sys::fs::OF_None);
 
-    if (EC) {
+    if (EC) 
+    {
         llvm::errs() << "Could not open file: " << EC.message() << "\n";
         return 1;
     }
@@ -79,7 +88,8 @@ int main(int argc, char** argv) {
     llvm::legacy::PassManager pass;
     llvm::CodeGenFileType fileType = llvm::CodeGenFileType::ObjectFile;
 
-    if (targetMachine->addPassesToEmitFile(pass, dest, nullptr, fileType)) {
+    if (targetMachine->addPassesToEmitFile(pass, dest, nullptr, fileType)) 
+    {
         llvm::errs() << "TargetMachine can't emit a file of this type\n";
         return 1;
     }
@@ -88,6 +98,24 @@ int main(int argc, char** argv) {
     dest.flush();
 
     llvm::outs() << "Object file 'output.o' has been generated.\n";
+
+    const char* args[] = {
+        "lld",                      // Linking app
+
+        "output.o",                 // Input object file
+
+        "libcmt.lib",               // Static CRT library
+        "kernel32.lib",             // Windows system libraries
+        "user32.lib"                // Windows system libraries (if needed)
+    };
+
+
+    if (!lld::coff::link(args, llvm::outs(), llvm::errs(), false, false))
+    {
+        llvm::errs() << "Linking failed\n";
+        return 1;
+    }
+    llvm::outs() << "Linking successful\n";
 
     return 0;
 }
