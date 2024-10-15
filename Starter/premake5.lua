@@ -45,6 +45,11 @@ project "Starter"
 		LLVM_Libs,
 	}
 
+    libdirs
+    {
+        LLVM_Libdir,
+    }
+
 	--------------------------------------
 	-- Platforms
 	--------------------------------------

@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
--- LLVM
+-- Utilities
 ------------------------------------------------------------------------------
 local function GetIOResult(cmd)
 	local handle = io.popen(cmd)			-- Open a console and execute the command.
@@ -9,25 +9,48 @@ local function GetIOResult(cmd)
 	return output:match("^%s*(.-)%s*$")		-- Trim any trailing whitespace (such as newlines)
 end
 
--- Note: Split by ' '
-local function AddPrefix(str, prefix)
-	local result = {}
+function GetOS()
+	local osName = os.getenv("OS")
 
-	for part in str:gmatch("%S+") do
-        table.insert(result, prefix .. part)
-    end
-    
-    return table.concat(result, " ")
+	if osName == "Windows_NT" then
+		return "windows"
+	else -- TODO: Check if works
+		local uname = io.popen("uname"):read("*l")
+		if uname == "Linux" then
+			return "linux"
+		elseif uname == "Darwin" then
+			return "macosx"
+		end
+	end
+	
+	return "unknown-os"
+end
+------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+-- LLVM
+------------------------------------------------------------------------------
+local function GetLibPrefix()
+	if GetOS() == "windows" then
+		return ""
+	elseif GetOS() == "linux" then
+		return "-l"
+	elseif GetOS() == "macosx" then
+		return "TODO"
+	end
+
+	return ""
 end
 
 LLVM_Prefix = GetIOResult("llvm-config --prefix")
 LLVM_Flags = GetIOResult("llvm-config --cppflags")
 LLVM_Libs = GetIOResult("llvm-config --libs")
+LLVM_Libdir = GetIOResult("llvm-config --libdir")
 
-local libSuffix = ".lib"
-LLVM_Libs = LLVM_Libs .. " " .. LLVM_Prefix .. "/lib/lldCommon" .. libSuffix
-LLVM_Libs = LLVM_Libs .. " " .. LLVM_Prefix .. "/lib/lldELF" .. libSuffix
-LLVM_Libs = LLVM_Libs .. " " .. LLVM_Prefix .. "/lib/lldCOFF" .. libSuffix
+-- Note: Adding lld (linker) libraries.
+LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldCommon"
+LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldELF"
+LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldCOFF"
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
@@ -35,9 +58,9 @@ LLVM_Libs = LLVM_Libs .. " " .. LLVM_Prefix .. "/lib/lldCOFF" .. libSuffix
 ------------------------------------------------------------------------------
 MacOSVersion = "14.5"
 
-Dependencies = 
+Dependencies =
 {
-	
+
 }
 ------------------------------------------------------------------------------
 
