@@ -66,6 +66,19 @@ project "Starter"
 		defines "APP_PLATFORM_LINUX"
 		systemversion "latest"
 
+        buildoptions
+        {
+            "-fPIC"
+        }
+
+        linkoptions
+        {
+            "-no-pie",
+
+            "-lz",
+            "-lzstd"
+        }
+
     filter "system:macosx"
 		defines "APP_PLATFORM_MACOS"
 		systemversion(MacOSVersion)
