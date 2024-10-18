@@ -42,15 +42,19 @@ local function GetLibPrefix()
 	return ""
 end
 
+LLVM_Libs =  " " .. GetLibPrefix() .. "lldELF"
+LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldCOFF"
+LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldCommon"
+
 LLVM_Prefix = GetIOResult("llvm-config --prefix")
 LLVM_Flags = GetIOResult("llvm-config --cppflags")
-LLVM_Libs = GetIOResult("llvm-config --libs")
+LLVM_Libs = LLVM_Libs .. " " .. GetIOResult("llvm-config --libs")
 LLVM_Libdir = GetIOResult("llvm-config --libdir")
 
 -- Note: Adding lld (linker) libraries.
-LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldCommon"
-LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldELF"
-LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldCOFF"
+-- LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldCommon"
+-- LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldELF"
+-- LLVM_Libs = LLVM_Libs .. " " .. GetLibPrefix() .. "lldCOFF"
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
