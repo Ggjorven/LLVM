@@ -22,9 +22,11 @@ int main(int argc, char** argv)
     llvm::InitLLVM X(argc, argv);
     llvm::LLVMContext context;
     llvm::Module module("my_module", context);
+    module.addModuleFlag(llvm::Module::Warning, "Debug Info Version", llvm::DEBUG_METADATA_VERSION);
 
     // Create the main function: int main()
     llvm::FunctionType* funcType = llvm::FunctionType::get(llvm::Type::getInt32Ty(context), false);
+    //llvm::Function* mainFunc = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, "main", module);
     llvm::Function* mainFunc = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, "main", module);
 
     // Create the entry basic block for the main function
@@ -120,10 +122,27 @@ int main(int argc, char** argv)
 
 #elif defined(APP_PLATFORM_LINUX)
     const char* args[] = {
-        "lld",                      // Linking app
+        "lld",                          // Linking app
+        
+        "-o", "output",                 // Output executable
+        
+        "output.o",                     // Input object file
 
-        "output.o",                 // Input object file
+        "-g",                           // Generate debugging information
+
+        //"-L/usr/lib",  // Library path
+        "-L/usr/lib/x86_64-linux-gnu",  // Library path
+
+        "/usr/lib/x86_64-linux-gnu/crt1.o",  // CRT object file
+        //"/usr/lib/x86_64-linux-gnu/crti.o",  // CRT initialization
+        "-lc",                          // Link against libc
+        //"/usr/lib/x86_64-linux-gnu/crtn.o",  // CRT termination file
+        
+        //"-lgcc",                        // Link against libgcc (runtime)
+        //"-lm",                          // Link against libm (math library)
+
     };
+
 
     if (!lld::elf::link(args, llvm::outs(), llvm::errs(), false, false))
     {
